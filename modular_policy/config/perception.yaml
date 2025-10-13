@@ -1,0 +1,58 @@
+rgb_encoder:
+  RobomimicRgbEncoder:
+    _target_: modular_policy.model.perception.rgb_encoder.RobomimicRgbEncoder
+    shape_meta: ${shape_meta}
+    crop_shape: [84, 84]
+    use_group_norm: True
+    eval_fixed_crop: False
+    share_rgb_model: False
+
+
+pointcloud_encoder:
+  Dp3PointcloudEncoder:
+    _target_: modular_policy.model.perception.pointcloud_encoder.Dp3PointcloudEncoder
+    shape_meta: ${shape_meta}
+    out_channels: 64
+    layer_size: [64, 128, 256]
+    use_layer_norm: True
+  PointTransformerEncoder:
+    _target_: modular_policy.model.perception.pointcloud_encoder.PointTransformerEncoder
+    shape_meta: ${shape_meta}
+    out_channels: 64
+    use_group_norm: True
+    use_layer_norm: True
+  ParticleGraphEncoder:
+    _target_: modular_policy.model.perception.pointcloud_encoder.ParticleGraphEncoder
+    shape_meta: ${shape_meta}
+    out_channels: 64
+    knn: 5
+    num_propagation_steps: 3
+
+
+dino_encoder:
+  DinoDp3PointcloudEncoder:
+    _target_: modular_policy.model.perception.dino_encoder.DinoDp3PointcloudEncoder
+    shape_meta: ${shape_meta}
+    out_channels: 64
+    layer_size: [64, 128, 256]
+    use_layer_norm: True
+
+
+depth_encoder:
+  RobomimicDepthEncoder:
+    _target_: modular_policy.model.perception.depth_encoder.RobomimicDepthEncoder
+    shape_meta: ${shape_meta}
+    crop_shape: [84, 84]
+    use_group_norm: True
+    eval_fixed_crop: False
+    share_depth_model: False
+
+
+tactile_encoder:
+  RobomimicTactileEncoder:
+    _target_: modular_policy.model.perception.tactile_encoder.RobomimicTactileEncoder
+    shape_meta: ${shape_meta}
+    crop_shape: null
+    use_group_norm: True
+    eval_fixed_crop: False
+    share_tactile_model: False

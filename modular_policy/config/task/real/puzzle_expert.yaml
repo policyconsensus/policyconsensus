@@ -1,0 +1,56 @@
+name: puzzle-expert
+
+task_name: puzzle-expert
+lazy_eval: True
+
+shape_meta: &shape_meta
+  obs:
+    camera_0_color:
+      shape: [3, 96, 128]
+      type: rgb
+    camera_1_color:
+      shape: [3, 96, 128]
+      type: rgb
+    left_tactile:
+      shape: [1, 16, 32]  # Tactile as 1-channel image
+      type: rgb
+    right_tactile:
+      shape: [1, 16, 32]  # Tactile as 1-channel image
+      type: rgb
+    robot_joint:
+      shape: [7]
+      type: robot_state
+  action:
+    shape: [7] # eef_pose
+
+
+env_runner:
+  _target_: modular_policy.env_runner.base_runner.BaseRunner
+  task_name: puzzle_expert
+  n_test: 30
+  n_test_vis: 5
+  n_obs_steps: ${n_obs_steps}
+  n_action_steps: ${n_action_steps}
+  fps: 10
+  n_parallel_envs: 1
+  max_episode_steps: 600
+  zarr_path: ${task.dataset.zarr_path}
+  image_scale: 1.0
+
+
+dataset:
+  _target_: modular_policy.dataset.real_dataset.RealDataset
+  zarr_path: ???  # This should be overridden
+  obs_keys:
+    - camera_0_color
+    - camera_1_color
+    - left_tactile
+    - right_tactile
+    - robot_joint
+  action_key: robot_joint
+  horizon: ${horizon}
+  pad_before: ${eval:'${n_obs_steps}-1'}
+  pad_after: ${eval:'${n_action_steps}-1'}
+  seed: 42
+  val_ratio: 0.1
+  max_train_episodes: null

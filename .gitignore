@@ -1,0 +1,40 @@
+*.DS_Store
+*__pycache__/
+*.vscode/
+data/
+output/
+archive/
+*.egg-info/
+
+.history/
+
+output_hdd/
+output_other/
+data_hdd/
+
+# Research papers and presentations
+*.pdf
+
+# Raw demonstration data
+demo_data_raw/
+
+
+# Model checkpoints (too large for git)
+*.ckpt
+*.pth
+*.pt
+
+# Temporary and cache files
+*.pyc
+*.pyo
+*.swp
+*.swo
+*~
+.cache/
+.pytest_cache/
+
+# Environment files
+.env
+.venv
+env/
+venv/

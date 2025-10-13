@@ -1,0 +1,61 @@
+name: rb-take_umbrella_out_of_umbrella_stand
+
+task_name: rb-take_umbrella_out_of_umbrella_stand
+lazy_eval: True
+
+shape_meta: &shape_meta
+  obs:
+    front_rgb:
+      shape: [3, 128, 128]
+      type: rgb
+    wrist_rgb:
+      shape: [3, 128, 128]
+      type: rgb
+    overhead_rgb:
+      shape: [3, 128, 128]
+      type: rgb
+    joint_positions:
+      shape: [7]
+      type: robot_state
+    gripper_joint_positions:
+      shape: [2]
+      type: robot_state
+  action:
+    shape: [9]  # 7 dof + 2 gripper
+
+
+env_runner:
+  _target_: modular_policy.env_runner.rlbench_runner.RlbenchRunner
+  task_name: take_umbrella_out_of_umbrella_stand
+  n_test: 20
+  n_test_vis: 5
+  n_obs_steps: ${n_obs_steps}
+  n_action_steps: ${n_action_steps}
+  fps: 10
+  n_parallel_envs: 5
+  image_size: 128
+  num_points: null
+  enable_depth: False
+  camera_names: ['front', 'wrist', 'overhead']
+  robot_state_ports:
+    - joint_positions
+    - gripper_joint_positions
+  max_episode_steps: 250
+
+
+dataset:
+  _target_: modular_policy.dataset.rlbench_dataset.RlbenchDataset
+  zarr_path: data/rlbench/take_umbrella_out_of_umbrella_stand_expert_${training.num_demo}.zarr
+  obs_keys:
+    - front_rgb
+    - wrist_rgb
+    - overhead_rgb
+    - joint_positions
+    - gripper_joint_positions
+  action_key: action
+  horizon: ${horizon}
+  pad_before: ${eval:'${n_obs_steps}-1'}
+  pad_after: ${eval:'${n_action_steps}-1'}
+  seed: 42
+  val_ratio: 0.1
+  

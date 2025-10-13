@@ -1,0 +1,153 @@
+defaults:
+  - _self_
+  - perception
+  - task: metaworld/mt10
+
+name: train_spec_rgb_pcd    # 3 = rgb + pcd + state
+_target_: modular_policy.workspace.train_policy.TrainPolicyWorkspace
+
+task_name: ${task.name}
+shape_meta: ${task.shape_meta}
+exp_name: "default"
+
+horizon: 16
+n_obs_steps: 2
+n_action_steps: 8
+dataset_obs_steps: ${n_obs_steps}
+keypoint_visible_rate: 1.0
+
+policy:
+  _target_: modular_policy.policy.dp_unets_spec.DiffusionUnetsPolicy
+
+  shape_meta: ${shape_meta}
+  
+  num_modules: 2 
+
+  noise_scheduler:
+    _target_: diffusers.schedulers.scheduling_ddpm.DDPMScheduler
+    num_train_timesteps: 100
+    beta_start: 0.0001
+    beta_end: 0.02
+    beta_schedule: squaredcos_cap_v2
+    variance_type: fixed_small # Yilun's paper uses fixed_small_log instead, but easy to cause Nan
+    clip_sample: True # required when predict_epsilon=False
+    prediction_type: epsilon # or sample
+
+  obs_encoders:
+    - _target_: modular_policy.model.perception.model_factory.create_rgb_encoder
+      _recursive_: False
+      to_use: "RobomimicRgbEncoder"
+      model_library: ${rgb_encoder}
+
+    - _target_: modular_policy.model.perception.model_factory.create_pointcloud_encoder
+      _recursive_: False
+      to_use: "Dp3PointcloudEncoder"
+      model_library: ${pointcloud_encoder}
+
+    - _target_: modular_policy.model.perception.model_factory.create_dino_pointcloud_encoder
+      _recursive_: False
+      to_use: "DinoDp3PointcloudEncoder"
+      model_library: ${dino_encoder}
+
+  horizon: ${horizon}
+  n_action_steps: ${n_action_steps}
+  n_obs_steps: ${n_obs_steps}
+  num_inference_steps: 100
+  diffusion_step_embed_dim: 64
+  down_dims: [256, 512, 1024]
+  kernel_size: 5
+  n_groups: 8
+  cond_predict_scale: True
+  composition_strategy: "soft_gating" # Options: soft_gating, hard_routing, topk_moe
+  topk: 2 # Only used for top-k MoE
+
+  # scheduler.step params
+  # predict_epsilon: True
+
+ema:
+  _target_: modular_policy.model.diffusion.ema_model.EMAModel
+  update_after_step: 0
+  inv_gamma: 1.0
+  power: 0.75
+  min_value: 0.0
+  max_value: 0.9999
+
+dataloader:
+  batch_size: 64
+  num_workers: 8
+  shuffle: True
+  pin_memory: True
+  persistent_workers: False
+
+val_dataloader:
+  batch_size: 64
+  num_workers: 8
+  shuffle: False
+  pin_memory: True
+  persistent_workers: False
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1.0e-4
+  betas: [0.95, 0.999]
+  eps: 1.0e-8
+  weight_decay: 1.0e-6
+
+training:
+  num_demo: 500
+  device: "cuda:0"
+  seed: 42
+  debug: False
+  resume: True
+  cuda_kernel_tuning: True  # torch.backends.cudnn.benchmark
+  # optimization
+  lr_scheduler: cosine
+  lr_warmup_steps: 500
+  num_epochs: 1001
+  gradient_accumulate_every: 1
+  # EMA destroys performance when used with BatchNorm
+  # replace BatchNorm with GroupNorm.
+  use_ema: True
+  freeze_encoder: False
+  # training loop control
+  # in epochs
+  rollout_every: 50
+  checkpoint_every: 50
+  val_every: 50
+  sample_every: 50
+  # steps per epoch
+  max_train_steps: null
+  max_val_steps: null
+  # misc
+  tqdm_interval_sec: 1.0
+
+logging:
+  project: modular_policy_debug
+  resume: True
+  mode: online
+  name: ${now:%Y%m%d.%H%M%S}_${name}_${task_name}_M${policy.num_modules}_${policy.composition_strategy}_N${training.num_demo}
+  tags: ["${name}", "${task_name}", "${exp_name}"]
+  id: null
+  group: null
+
+checkpoint:
+  topk:
+    monitor_key: mean_success_rate
+    mode: max
+    k: 5
+    format_str: 'ep-{epoch:04d}_sr-{mean_success_rate:.3f}.ckpt'
+  save_last_ckpt: True
+  save_last_snapshot: False
+
+multi_run:
+  run_dir: output/${now:%Y%m%d}/${now:%H%M%S}_${name}_${task_name}_M${policy.num_modules}_${policy.composition_strategy}_N${training.num_demo}
+  wandb_name_base: ${now:%Y%m%d.%H%M%S}_${name}_${task_name}_M${policy.num_modules}_${policy.composition_strategy}_N${training.num_demo}
+
+hydra:
+  job:
+    override_dirname: ${name}
+  run:
+    dir: output/${now:%Y%m%d}/${now:%H%M%S}_${name}_${task_name}_M${policy.num_modules}_${policy.composition_strategy}_N${training.num_demo}
+  sweep:
+    dir: output/${now:%Y%m%d}/${now:%H%M%S}_${name}_${task_name}_M${policy.num_modules}_${policy.composition_strategy}_N${training.num_demo}
+    subdir: ${hydra.job.num}

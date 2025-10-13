@@ -1,0 +1,257 @@
+name: policy-consensus
+channels:
+  - fvcore
+  - iopath
+  - bottler
+  - pytorch
+  - conda-forge
+  - nvidia
+  - pytorch3d
+  - defaults
+  - menpo
+dependencies:
+  - python=3.9
+  - pip=24.2
+  - wheel==0.38.4
+
+  # do not change below
+  - cuda-toolkit=12.1
+  - pytorch-cuda=12.1
+  - pytorch=2.1.0
+  - torchvision=0.16.0
+  - pytorch3d=0.7.5
+  # do not change above
+
+  # egl related
+  # https://github.com/openai/mujoco-py/issues/627
+  # $ conda install -c conda-forge glew
+  # $ conda install -c conda-forge mesalib
+  # $ conda install -c menpo glfw3
+  - glew
+  - mesalib
+  - glfw3
+  - boost-cpp  
+  - boost     
+
+  # X11 related
+  # $ conda install -c conda-forge xorg-libx11 xorg-xproto xorg-libxext
+  - xorg-libx11
+  - xorg-xproto
+  - xorg-libxext
+
+  - eigen=3.4.0
+  - scikit-video=1.1.11
+  # - fvcore
+  # - iopath
+  - fvcore=0.1.5.post20221221
+  - iopath=0.1.9
+  # - py-opencv==4.9.0
+  # - pandas
+  - numba==0.59.1
+  # - dill
+  # - av=12.3.0   # if not this, delta fails
+  # - pillow
+  # - threadpoolctl
+
+  - pip:
+    - av==12.3.0
+    - sentence_transformers
+    - atomics==1.0.2
+    - addict==2.4.0
+    - aiohttp==3.9.5
+    - aiosignal==1.3.1
+    - anyio==4.4.0
+    - appdirs==1.4.4
+    - argon2-cffi==23.1.0
+    - argon2-cffi-bindings==21.2.0
+    - array_record==0.5.1
+    - arrow==1.3.0
+    - asciitree==0.3.3
+    - asttokens==2.2.1
+    - astunparse==1.6.3
+    - async-lru==2.0.4
+    - async-timeout==4.0.3
+    - attrs==23.2.0
+    - Babel==2.15.0
+    - backcall==0.2.0
+    - bddl==1.0.1
+    - beautifulsoup4==4.12.3
+    - bleach==6.1.0
+    - boto3==1.34.148
+    - botocore==1.34.148
+    - nodejs==0.1.1
+    - jupyterlab==4.1.5
+    - objaverse==0.1.7
+    - g4f==0.2.7.1
+    - ultralytics==8.0.120
+    - pycocotools==2.0.7
+    - py-spy==0.3.14
+    - videoio==0.2.8
+    - kornia==0.7.2
+    - einops==0.7.0
+    - transformations==2024.6.1
+    - joblib==1.3.2
+    - warp-lang==1.0.2
+    - easydict==1.13
+    - supervision
+    - yacs==0.1.8
+    - klampt==0.9.1
+    - jaxtyping==0.2.34
+    - Pillow==10.4.0
+    - pyrealsense2==2.55.1.6486
+    - ur-rtde==1.5.9
+    - scipy==1.12.0 
+    - scikit-learn==1.4.1.post1
+    - scikit-image==0.22.0
+    - ninja==1.11.1.1
+    - numpy==1.26.4
+    - h5py==3.10.0
+    - pybind11==2.12.0
+    - imageio==2.34.0
+    - imageio-ffmpeg==0.4.9
+    - opencv-python==4.9.0.80
+    - opencv-python-headless==4.9.0.80
+    - opencv-contrib-python==4.9.0.80
+    - chumpy==0.70
+    - click==8.1.3
+    - cloudpickle==1.6.0
+    - cmake==3.27.2
+    - comm==0.2.2
+    - ConfigArgParse==1.5.3
+    - open3d==0.18.0
+    - gymnasium==1.0.0a2
+    - setuptools==69.5.1
+    - wandb==0.16.5
+    - Cython==0.29.35
+    - patchelf==0.17.2.0
+    - mujoco==3.3.2
+    - Markdown==3.6
+    - markdown-it-py==3.0.0
+    - MarkupSafe==2.1.1
+    - marshmallow==3.21.3
+    - matplotlib==3.8.3
+    - matplotlib-inline==0.1.6
+    - mdit-py-plugins==0.4.1
+    - mdurl==0.1.2
+    - mediapy==1.2.0
+    - mistune==3.0.2
+    - model-index==0.1.11
+    - moviepy==1.0.3
+    - multidict==6.0.5
+    - munkres==1.1.4
+    - robomimic==0.2.0
+    - robosuite==1.4.0
+    - contourpy==1.2.1
+    - crcmod==1.7
+    - cryptography==43.0.0
+    - cycler==0.12.1
+    - dash==2.7.1
+    - dask==2024.7.1
+    - dask-ml==2024.4.4
+    - tornado==6.4.1
+    - debugpy==1.8.2
+    - decorator==4.4.2
+    - deepspeed==0.11.1
+    - defusedxml==0.7.1
+    - diffusers==0.20.1
+    - dm-tree==0.1.8
+    - docker-pycreds==0.4.0
+    - egl-probe==1.0.2
+    - entrypoints==0.4
+    - environs==9.5.0
+    - etils==1.5.2
+    - exceptiongroup==1.2.2
+    - executing==1.2.0
+    - fairscale==0.4.4
+    - Farama-Notifications==0.0.4
+    - fasteners==0.19
+    - fastjsonschema==2.20.0
+    - filelock==3.14.0
+    - filterpy==1.4.5
+    - flatbuffers==24.3.25
+    - flow-vis==0.1
+    - fonttools==4.53.1
+    - fqdn==1.5.1
+    - freetype-py==2.4.0
+    - frozenlist==1.4.1
+    - ftfy==6.2.0
+    - future==0.18.2
+    - gast==0.4.0
+    - gdown==5.2.0
+    - gitdb==4.0.11
+    - GitPython==3.1.43
+    - glfw==2.6.2
+    - google-auth==2.32.0
+    - google-auth-oauthlib==1.0.0
+    - google-pasta==0.2.0
+    - googleapis-common-protos==1.63.2
+    - grpcio==1.65.1
+    - hjson==3.1.0
+    - hpack==4.0.0
+    - huggingface-hub==0.24.2
+    - hydra-core==1.3.2
+
+    - imagecodecs==2022.9.26
+    - pandas==2.0.3
+    - pyserial==3.5
+    - packaging==24.1
+    - pandocfilters==1.5.1
+    - parso==0.8.3
+    - partd==1.4.2
+    - pathtools==0.1.2
+    - pexpect==4.9.0
+    - pickleshare==0.7.5
+    - platformdirs==4.2.2
+    - pluggy==1.5.0
+    - plyfile==1.0.3
+    - proglog==0.1.10
+    - prometheus_client==0.20.0
+    - promise==2.3
+    - prompt-toolkit==3.0.36
+    - psutil==6.0.0
+    - ptyprocess==0.7.0
+    - pure_eval==0.2.3
+    - py-cpuinfo==9.0.0
+    - pyasn1==0.6.0
+    - pyasn1_modules==0.4.0
+    - pybullet-svl==3.1.6.4
+    - pycocoevalcap==1.2
+    - pycryptodome==3.20.0
+    - Pygments==2.13.0
+    - pyparsing==3.0.9
+    - pyquaternion==0.9.9
+    - pyrsistent==0.19.2
+    - pytest==8.3.2
+    - python-dateutil==2.8.2
+    - python-dotenv==1.0.1
+    - python-json-logger==2.0.7
+    - python-xlib==0.33
+    - pytz==2023.4
+    - pyzmq==24.0.1
+    - dill==0.3.8
+    - termcolor==2.3.0
+    - terminado==0.18.1
+    - tf-keras==2.15.0
+    - tfds-nightly==4.9.2.dev202308090034
+    - threadpoolctl==3.5.0
+    - tifffile==2024.7.24
+    - timm==0.4.12
+    - tinycss2==1.3.0
+    - tokenizers==0.13.3
+    - toml==0.10.2
+    - tomli==2.0.1
+    - toolz==0.12.1
+    - tqdm==4.66.0
+    - traitlets==5.14.3
+    - transformers==4.25.1
+    - triton==2.0.0
+    - types-python-dateutil==2.9.0.20240316
+    - typing_extensions==4.12.2
+    - zarr==2.18.2
+    - pynput==1.7.6
+    - spnav @ https://github.com/cheng-chi/spnav/archive/c1c938ebe3cc542db4685e0d13850ff1abfdb943.tar.gz
+    - -e modular_policy/devices/gello_software/third_party/DynamixelSDK/python/
+    - -e modular_policy/devices/gello_software/
+
+    - git+https://github.com/Chaoqi-LIU/gym.git@factorized_diffusion_policy#egg=gym
+    - git+https://github.com/Chaoqi-LIU/RLBench.git@factorized_diffusion_policy#egg=RLBench
