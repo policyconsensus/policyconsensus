@@ -2,7 +2,7 @@
 
 Multi-Modal Manipulation via Multi-Modal Policy Consensus
 
-📄 [Paper](https://arxiv.org/abs/2509.23468) | 🌐 [Project Page](https://policyconsensus.github.io) | 📝 [Blog](https://www.notion.so/Multi-Modal-Manipulation-via-Policy-Consensus-28645464339980d6a8a4ca588dec3905) | 📝 [Deepwiki]((https://www.notion.so/Multi-Modal-Manipulation-via-Policy-Consensus-28645464339980d6a8a4ca588dec3905)
+📄 [Paper](https://arxiv.org/abs/2509.23468) | 🌐 [Project Page](https://policyconsensus.github.io) | 📝 [Blog](https://www.notion.so/Multi-Modal-Manipulation-via-Policy-Consensus-28645464339980d6a8a4ca588dec3905) | 📜 [Deepwiki](https://www.notion.so/Multi-Modal-Manipulation-via-Policy-Consensus-28645464339980d6a8a4ca588dec3905)
 
 <a href="https://haonan16.github.io/">Haonan Chen<sup>1,4</sup></a>,
 <a href="https://www.linkedin.com/in/jiaming-xu-7b4857264/">Jiaming Xu<sup>1*</sup></a>,
