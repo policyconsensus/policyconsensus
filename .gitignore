@@ -36,5 +36,4 @@ demo_data_raw/
 # Environment files
 .env
 .venv
-env/
 venv/
